@@ -1,5 +1,6 @@
 const yourShip = document.querySelector('.player-shooter');
 const playArea = document.querySelector('#main-play-area');
+const aliensImg = ['img/monster-1.png', 'img/monster-2.png', 'img/monster-3.png'];
 
 // movimento e tiro da nave
 function flyShip(event){
@@ -70,6 +71,38 @@ function moveLaser(laser){
     }, 10);
 }
 
+// criar inimigos
+function createAliens(){
+    let newAlien = document.createElement('img');
+    let alienSprite = aliensImg[Math.floor(Math.random() * aliensImg.length)]; // sortei imgs
+    newAlien.src = alienSprite;
+    newAlien.classList.add('alien');
+    newAlien.classList.add('alien-transition');
+    newAlien.style.left = '370px';
+    newAlien.style.top = `${Math.floor(Math.random() * 330 ) + 30}px`;
+    playArea.appendChild(newAlien);
+    moveAlien(newAlien);
+}
+
+// movimentar inimigos
+function moveAlien(alien){
+    let moveAlienInterval = setInterval(() => {
+        let xPosition = parseInt(window.getComputedStyle(alien).getPropertyValue('left'), 10);
+        if(xposition <= 50){
+            if(Array.from(alien.classList).includes('dead-alien')){
+                alien.remove();
+            }else{
+               // gameOver();
+            }
+        }else{
+            alien.style.left = `${xPosition - 4}px`;
+        }
+    }, 30);
+}
+
+// função de colisão
+
+// video 7 tempo 07:30
 
 
 window.addEventListener('keydown', flyShip);
